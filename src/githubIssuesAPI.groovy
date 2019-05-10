@@ -7,23 +7,22 @@ import java.nio.charset.StandardCharsets
 import org.yaml.snakeyaml.Yaml
 
 Yaml parser = new Yaml()
-def credential = parser.load(("user.yaml" as File).text)
+def config = parser.load(("config.yaml" as File).text)
 
-println credential.username
-println credential.password
+println config.username
+println config.password
+println config.repo
+println config.dateSince
 
-//System.exit(-1)
+
 def page = 1
 
 def queryParams = ""
 
 def nextPage = true
-
-def repo = "onestop"
 def epicFilter = false
-def dateSince = "2018-11-20"
 
-File file = new File("${repo}Issues.txt")
+File file = new File("${config.repo}Issues.txt")
 def writer = file.newWriter()
 def totCnt = 0
 
@@ -32,17 +31,17 @@ while ( nextPage ) {
     def storyCnt = 0
     def epicCnt = 0
 
-    def baseURL = "https://api.github.com/repos/cedardevs/${repo}/issues?state=closed&since=${dateSince}&sort=created&direction=asc&page=${page}&per_page=100"
+    def baseURL = "https://api.github.com/repos/cedardevs/${config.repo}/issues?state=closed&since=${config.dateSince}&sort=created&direction=asc&page=${page}&per_page=100"
     def connection = new URL( baseURL ).openConnection() as HttpURLConnection
     // set some headers
     connection.setRequestProperty( 'User-Agent', 'groovy-2.4.x' )
     connection.setRequestProperty( 'Accept', 'application/json' )
     //BasicAuth
-    String encoded = Base64.getEncoder().encodeToString((credential.username+":"+credential.password).getBytes(StandardCharsets.UTF_8));  //Java 8
+    String encoded = Base64.getEncoder().encodeToString((config.username+":"+config.password).getBytes(StandardCharsets.UTF_8));  //Java 8
     connection.setRequestProperty("Authorization", "Basic "+encoded);
 
-    writer << "Github issue report for ${repo}\n"
-    writer << "Closed issues since ${dateSince}\n\n"
+    writer << "Github issue report for ${config.repo}\n"
+    writer << "Closed issues since ${config.dateSince}\n\n"
 
 
     if ( connection.responseCode == 200 ) {

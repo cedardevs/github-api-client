@@ -9,5 +9,5 @@ Code assumes a config.yaml file exists with credentials needed to access the rep
  - password: "mypassword"
  - repo: "myrepo"
  - dateSince: "YYYY-MM_DD"
- - epicFilter: false
+
   

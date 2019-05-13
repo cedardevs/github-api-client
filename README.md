@@ -8,6 +8,6 @@ Code assumes a config.yaml file exists with credentials needed to access the rep
  - username: "myname"
  - password: "mypassword"
  - repo: "myrepo"
- - dateSince: "YYYY-MM_DD"
+ - dateSince: "YYYY-MM-DD"
 
   

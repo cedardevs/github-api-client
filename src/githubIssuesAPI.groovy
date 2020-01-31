@@ -10,7 +10,7 @@ Yaml parser = new Yaml()
 def config = parser.load(("config.yaml" as File).text)
 
 println config.username
-println config.password
+//println config.password
 println config.repo
 println config.dateSince
 

@@ -2,3 +2,5 @@ username: "myuser"
 password: "mypassword"
 repo: "myrepo"
 dateSince: "YYYY-MM-DD"
+includeBody: false
+useHeaders: false

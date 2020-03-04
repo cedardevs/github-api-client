@@ -3,4 +3,5 @@ password: "mypassword"
 repo: "myrepo"
 dateSince: "YYYY-MM-DD"
 includeBody: false
+includeComments: false
 useHeaders: false

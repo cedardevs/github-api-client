@@ -19,6 +19,7 @@ println "username: ${config.username}"
 println "repo: ${config.repo}"
 println "dateSince: ${config.dateSince}"
 println "includeBody: ${config.includeBody}"
+println "includeComments: ${config.includeComments}"
 println "useHeaders: ${config.useHeaders}"
 println '-' * 10
 
@@ -108,9 +109,32 @@ while ( nextPage ) {
             }
             issueText << " (${config.repo} <a href='${issue.html_url}' target='_blank'>#${issue.number}</a>)</li>\n"
             if (config.includeBody && issue.body) {
-                document = mdParser.parse(issue.body)
+                def document = mdParser.parse(issue.body)
                 String issueHtml = renderer.render(document)
-                issueText << "<dd><table style='width: 100%; border: 1px solid black; background-color: #eee;'><tr><td>${issueHtml}</td></tr></table></dd>\n"
+                issueText << "<dd><table style='width: 100%; border: 1px solid black; background-color: #eee;'>\n"
+                issueText << "<tr><td colspan=2>${issueHtml}</td></tr>\n"
+                // Add issue comment bodies if configured
+                if (config.includeComments) {
+                    def commentURL = "https://api.github.com/repos/cedardevs/${config.repo}/issues/${issue.number}/comments?state=all&sort=created&direction=asc"
+                    def commentConn = new URL( commentURL ).openConnection() as HttpURLConnection
+                    // set some headers
+                    commentConn.setRequestProperty( 'User-Agent', 'groovy-2.4.x' )
+                    commentConn.setRequestProperty( 'Accept', 'application/json' )
+                    //BasicAuth
+                    commentConn.setRequestProperty("Authorization", "Basic "+encoded)
+                    if (commentConn.responseCode == 200) {
+                        def commentJson = commentConn.inputStream.withCloseable { inStream ->
+                            new JsonSlurper().parse( inStream as InputStream )
+                        }
+
+                        commentJson.each { comment ->
+                            def commentDoc = mdParser.parse(comment.body)
+                            String commentHtml = renderer.render(commentDoc)
+                            issueText << "<tr><td>${comment.user.login}<br/>${comment.updated_at}</td><td style='border: 1px solid blue; background-color: #ffffee;'>${commentHtml}</td></tr>\n"
+                        }
+                    }
+                }
+                issueText << "</table></dd>\n"
             }
 
             // write out just epics

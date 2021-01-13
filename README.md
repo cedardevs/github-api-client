@@ -7,13 +7,15 @@ Code assumes a config.yaml file exists with credentials needed to access the rep
 Results written as an HTML report.
 
 ## Example config.yaml:
- - username: "myname"
- - password: "mypassword"
- - repo: "myrepo"
- - dateSince: "YYYY-MM-DD"
- - includeBody: false
- - includeComments: false
- - useHeaders: false
+```yaml
+- username: "myname"
+- password: "mypassword"
+- repo: "myrepo"
+- dateSince: "YYYY-MM-DD"
+- includeBody: false
+- includeComments: false
+- useHeaders: false
+```
 
 Note: If two-factor authentication is on, you will encounter a 401 Unauthorized HTTP error with your normal login password.
 

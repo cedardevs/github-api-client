@@ -6,24 +6,19 @@ Code assumes a config.yaml file exists with credentials needed to access the rep
 
 Results written as an HTML report.
 
-## Example config.yaml:
+### Example config.yaml:
 ```yaml
-- username: "myname"
-- password: "mypassword"
-- repo: "myrepo"
-- dateSince: "YYYY-MM-DD"
-- includeBody: false
-- includeComments: false
-- useHeaders: false
+---
+username: "myname"
+password: "mypassword"
+repo: "myrepo"
+dateSince: "YYYY-MM-DD"
+includeBody: false
+includeComments: false
+useHeaders: false
 ```
 
-Note: If two-factor authentication is on, you will encounter a 401 Unauthorized HTTP error with your normal login password.
-
-Use a Personal Access Token in place of your normal password, so you can leave your interactive login protected by two-factor 
-authentication. To generate the personalAccessToken view the instructions at
-
-https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line
-
+#### Config options
 **includeBody** enables printing the body of the issue (markdown converted to HTML). This can be handy for presenting
 information to people who do not have permission to view the linked issue numbers. 
 
@@ -31,3 +26,23 @@ information to people who do not have permission to view the linked issue number
 
 **useHeaders** turns on an alternate formatting option using headers for the section text instead of underlined text. 
 This helps the Epic, Closed and Open Stories section text stand out better when issue bodies are included.
+
+#### MFA Authenticaiton
+
+If two-factor authentication is on, you will encounter a 401 Unauthorized HTTP error with your normal login password.
+
+Use a Personal Access Token in place of your normal password, so you can leave your interactive login protected by two-factor 
+authentication. To generate the personalAccessToken view the instructions at
+
+https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line
+
+### Example usage:
+```bash
+groovy src/githubIssuesAPI.groovy
+```
+
+#### To install groovy
+If you don't have groovy installed locally you can do so using [SDK Man](https://sdkman.io/)
+- Install sdkman: `curl -s "https://get.sdkman.io" | bash`
+- Install groovy: `sdk install groovy`
+

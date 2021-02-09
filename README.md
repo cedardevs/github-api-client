@@ -37,9 +37,21 @@ authentication. To generate the personalAccessToken view the instructions at
 https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line
 
 ### Example usage:
+`githubIssuesAPI.groovy` expects the `config.yaml` file to exist in the directory where the command is run from.
+
 ```bash
+cp src/configSample.yaml config.yaml
+# Edit config.yaml to set parameters and credentials
 groovy src/githubIssuesAPI.groovy
 ```
+
+You should now have a `onestopIssues.html` (*repo*Issues.html) file.
+
+```bash
+# for MacOS
+open onestopIssues.html
+```
+This should open in your default browser, where you can then select-all, copy and paste into a google doc.
 
 #### To install groovy
 If you don't have groovy installed locally you can do so using [SDK Man](https://sdkman.io/)
